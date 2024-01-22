@@ -1,0 +1,42 @@
+N-gram 언어 모델 요약
+
+N-gram이란?
+- n-gram 언어모델 또한 카운트에 기반한 통계적 접근을 사용 -> SLM의 일종
+- 앞의 SLM과는 다르게 모든 단어를 고려하는 것이 아닌, 일부 단어만 고려하는 접근 방법을 사용
+- 일부 단어를 몇개를 보느냐에 따라 n-gram의 n의 역할
+
+기존 SLM과의 차이점
+- 앞서 SLM에서 문장 전체가 기존 데이터에 존재하지 않는 희소(Sparsity)문제가 있었는데...
+- 이에 대한 해결책으로 Back-off 방법을 사용했는데 이 방법과 비슷하다고 볼 수 있음
+- 차이점
+-> 전에는 그 단어앞의 문장 "전체"와, 그 단어가 포함된 문장 "전체"를 찾아봤다면
+-> 이제는 단어의 확률을 구하고자 하는 기준 단어의 앞 단어 중 "임의의 개수"만 카운트 하는 것
+-> 이렇게 할 경우, 해당 단어의 시퀀스 카운트 활률을 증가시킴
+
+N-gram의 종류
+- ex-sentence) Jack loves the white ?(cat or dog?).
+- 단어를 한개씩 세는 'uni'grams: Jack, loves, the, white, ?
+- 단어를 두개씩 세는   'bi'grams: Jack loves, loves the, the white, white ?
+- 단어를 세개씩 세는  'tri'grams: Jack loves the, loves the white, the white ?
+- 단어를 4개씩 세는   '4-'grams: Jack loves the white, loves the white ?
+- n=4, 4-gram을 사용한다면
+-> n-1에 해당되는 앞의 3단어만 고려 (loves the white)
+- 확률 계산은 기존 SLM방식과 비슷함
+-> loves the white가 100번, loves the white cat이 50번, loves the white dog이 20번이라면
+-> 확률은 cat 이 50%, dog이 20%로 확률적 선택에 따라 cat이 더 맞다고 판단하게 됨
+
+N-gram의 한계
+- 전체적인 문맥을 고려하지 않은, 찾고자 하는 단어의 확률하다 보니 아래와 같은 문제점이 생김
+- ex) Jack went to the abandoned dog shelter and suddenly, Jack loves the white ?
+-> 이 경우 문맥상 dog가 맞으나, n-gram은 앞의 문장 전체를 고려하지 않으니, cat이 나오게 됨
+-> 의도하고 싶은 대로 문장을 끝맺음 할 수 없음.
+
+N-gram의 문제점
+- 희소 문제 - SLM의 일종이기에 여전히 희소 문제 존재
+- N을 선택하는 것은 trade-0ff의 문제
+-> n의 크기를 늘릴수록 n-gram을 카운트할 수 있는 확률을 적어지므로 희소 문제가 심각해짐
+-> n의 크기가 커질수록 모델 사이즈가 커짐
+-> n의 크기가 작으면 카운트는 잘 되지만, 근사의 정확도는 현실의 확률분포와 멀어짐
+-> "최대 5를 넘어서는 안된다고 권장!"
+- 적용 분야에 맞는 코퍼스를 수집
+-> 훈련에 사용된 도메인 코퍼스가 무엇이냐에 따라 성능이 비약적으로 달라짐
