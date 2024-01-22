@@ -1,0 +1,12 @@
+단어의 표현 방법 요약
+
+단어의 표현
+- 국소 표현(Local Representation)
+- > 해당 단어 단어 그 자체만 보고, 특정값을 맵핑하여 단어를 표현
+- 분산 표현(Distributed Representation)
+-> 그 단어를 표현하고자 주변을 참고하여 단어를 표현
+
+국소 표현과 분산 표현의 예
+- ex) There is a cute lovely puppy.
+- 국소 표현은 각 단어 cute, lovely, puppy에 1,2,3과 같은 숫자를 맵핑할 것이고
+- 분산 표현은 puppy란 단어 주위에 있는 cute, lovely라는 단어와 연관되어있다고 정의할 것.
