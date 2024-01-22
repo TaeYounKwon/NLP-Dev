@@ -1,0 +1,20 @@
+통계적 언어 모델(Statistical Language Model) 요약
+
+어떻게 구현 되는가?
+- 기본적으로 문장의 확률을 구하기 위해서 다음 단어에 대한 예측 확률을 모두 곱함
+- 이전 단어로부터 다음 단어에 대한 확률을 구하기 위해
+-> 모든 단어를 카운트
+-> 예) Jack eats pork ?가 있을 때, Jack eats pork와 Jack eats pork belly란 문장의 수를 세서 확률을 계산
+-> 앞문장이 100번, 뒷 문장이 70번 나왔다면, 확률(P(belly | Jack eats prok)는 70%
+
+SLM의 한계
+- 희소 문제(Sparsity Problem)
+- 충분한 데이터를 관측하지 못하여 언어를 정확히 모델링하지 못하는 문제
+- 예) Jack eats pork 'belly'란 문장이 없을 수도 있음
+-> 확률이 0이 됨
+-> 해결방안 - Smoothing
+-->  belly란 단어가 나올때마다 적은 수의 값을 추가시켜 확률을 늘려줌
+- 예) Jack eats pork라는 분모에 들어올 문장 또한 없을 수 있음
+-> 계산 자체가 안됨...
+-> 해결방안 - Backoff
+--> n-gram처럼 Jack eats pork가 아닌 eats pork나 Jack eats처럼 단어의 수를 줄여 확률을 계산함
