@@ -1,0 +1,2 @@
+선형 회기(Linear Regression) 요약
+
