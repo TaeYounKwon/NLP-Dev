@@ -1,0 +1,22 @@
+게이트 순환 유닛(Gated Recurrent Unit, GRU)란?
+
+GRU 출현 과정
+- LSTM의 장기의존성 문제에 대한 해결책을 유지 + 은닉 상태를 업데이트하는 계산을 줄임
+- LSTM과 유사한 성능이나 LSTM의 구조를 간단화시킴
+
+GRU 구조
+- LSTM에서는 3개의 구조: 출력, 입력, 삭제
+- GRU에서는 2개의 구조: 업데이트, 리셋
+- GRU는 LSTM보다 학습속도가 빠르다고 알려져있지만, 여러 평가에서는 비슷한 성능을 보인다고함
+- GRU와 LSTM 중 어떤 것이 모델의 성능면에서 더 낫다라고 단정지을 수 X
+-> 기존 LSTM을 사용하고 최적의 하이퍼파라미터를 찾아냈다면 GRU 사용할 필요 X
+
+저자의 경험으로는...
+- 데이터 양이 적을 때는 매개 변수의 양이 적은 GRU
+- 데이터 양이 많으면 LSTM 
+- LSTM에 대한 연구와 사용량이 더 많은데
+-> 이는 LSTM의 성능 때문이 아닌 더 먼저 나왔기 때문에
+
+사용법
+- SimpleRNN이나 LSTM과 같은
+- model.add(GRU(hidden_size, input_shape=(timesteps, input_dim)))
