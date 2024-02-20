@@ -1,0 +1,35 @@
+RNN 언어 모델(Recurrent Neural Network Language Model, RNNLM)요약
+
+RNNLM이란?
+- 앞서 N-Gram과 NNLM의 경우 고정된 개수의 단어만을 입력받아야 하는 한계 존재
+- 하지만, Time Step이라는 개념이 도입된 RNN으로 언어 모델을 만들면 입력의 길이를 고정하지 않을 수 있음
+
+RNNLM 학습 과정
+- 예문: 'What will the fat cat sit on'
+- 아래 과정은 훈련이 이미 끝난 모델의 테스트 과정 동안의 이야기(실제 사용할 때)
+- RNNLM은 기본적으로 예측 과정에서 이전 시점의 출력을 현재 시점의 입력으로 사용
+-> 예문을 이용하면 먼저 What 이 입력으로 사용되고, 출력으로 will이 나오며
+-> 이전시점의 출력이였던 will 이 다시 입력으로 들어감
+- 결과적으로 세번째 시점에서 fat은 앞서 나온 what, will, the라는 시퀀스로 인해 결정된 단어
+- 네번째 시점의 cat은 앞서 나온 what, will, the, fat이라는 시퀀스로 인해 결정된 단어
+
+- 훈련 과정에서는 what will the fat cat sit이라는 시퀀스를 모델의 입력으로 넣으면
+- will the fat cat sit on을 예측하도록 훈련됨
+- 이러한 RNN 훈련 기법을 교사 강요(Teacher Forcing)이라고 함
+- 교사강요란?
+-> 테스트 과정에서 t시점의 출력이 t+1시점의 입력으로 사용되는 RNN 모델을 훈련시킬 때 사용하는 기법
+- 교사강요를 사용할 경우
+-> 모델이 t 시점에서 예측한 값을 t+1 시점에 입력으로 사용하지 x
+-> t 시점의 레이블, 즉 실제 알고있는 정답을 t+1 시점의 입력으로 사용
+- 훈련과정에서도 이전 시점의 출력을 다음 시점의 입력으로 사용하면서 훈련 시킬 수 도 있지만,
+-> 한번 예측을 잘못하면 뒤에까지 영향을 미쳐서 훈련 시간이 느려지게됨
+
+RNNLM의 구조
+- 총 4개의 층으로 이루어져 있음
+- Input Layer, Embedding Layer, Hidden Layer, Output Layer
+- Input Layer에는 one-hot-vector값이 들어옴
+- Embedding Layer에는 기본적인 투사층(projection layer)
+-> 룩업 테이블을 수행하는 층, 이미 투사층의 결과로 얻은 벡터를 임베딩 벡터라고 부름
+-> 임베딩 벡터를 얻는 투사층을 임베딩층
+- Hidden Layer에서는 tanh와 은닉 상태인 ht-1과 함께 다음의 연산을 하여 현재 시점의 은닉 상태 ht를 계산
+- Output Layer에서는 소프트맥스 함수를 사용
