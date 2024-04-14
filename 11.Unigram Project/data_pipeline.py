@@ -5,15 +5,8 @@
 import sentencepiece as spm
 import tensorflow as tf 
 
-sp = spm.SentencePieceProcessor(model_file='./ptb_unigram.model')
-
-def unigram_tokenization(train, model, vocab_size = 1024):
-    # Training the SentencePiece model
-    spm.SentencePieceTrainer.train(input=train, model_prefix=model, vocab_size=vocab_size, model_type='unigram')
-    
-    # Load the trained SentencePiece model and Vocab
-    sp = spm.SentencePieceProcessor()
-    sp.load(model_prefix + '.model')
+sp = spm.SentencePieceProcessor()
+sp.load('./ptb_unigram.model')
     
 def tokenize_and_create_pairs(text):
     token_ids = sp.encode_as_ids(text.numpy().decode('utf-8'))
@@ -35,12 +28,5 @@ def load_and_prepare(file_path):
     ).prefetch(tf.data.experimental.AUTOTUNE)
     return dataset
  
-
-# Q6. Coding Assignment
-# Step 1. Download the data and peform unigram tokenization with total number of 1024 tokens
-train_file = './data/ptb.train.txt'  # This should be the PTB dataset text file
-model_prefix = 'ptb_unigram'  # Prefix for the model files
-# unigram_tokenization(train=train_file, model=model_prefix)
-
-# Step2 Construct a Data Pipeline
-train_dataset = load_and_prepare(train_file)
+train_dataset = load_and_prepare('./data/ptb.train.txt') 
+test_dataset = load_and_prepare('./data/ptb.test.txt')

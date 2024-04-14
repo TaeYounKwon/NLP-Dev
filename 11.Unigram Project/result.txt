@@ -1,0 +1,4 @@
+Transformer model:
+Perplexity: 2.816127300262451
+LSTM Model: 
+Perplexity: 3.6026296615600586
